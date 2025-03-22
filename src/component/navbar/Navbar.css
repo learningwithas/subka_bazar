@@ -1,0 +1,158 @@
+.cart-badge {
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    padding: 3px 6px;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    right: -5px;
+}
+
+#navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+/* Logo and Menu Items */
+.logo-menu {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    /* Space between logo and menu items */
+}
+
+.logo img {
+    height: 50px;
+}
+
+.menuitem {
+    display: flex;
+    gap: 20px;
+}
+
+.home {
+    font-size: 16px;
+    font-weight: 500;
+    color: black;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.home:hover {
+    color: #e63946;
+}
+
+/* Signup & Cart Section */
+.menu_signup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.signup {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: black;
+}
+
+.menu_cart {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.cart {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.cart img {
+    height: 20px;
+    margin-right: 5px;
+}
+
+.cart span {
+    font-size: 14px;
+    font-weight: 500;
+    color: black;
+}
+
+.cart:hover {
+    background-color: #f8f9fa;
+    border-color: #ccc;
+}
+
+/* Hide the menu on small screens and show when hamburger is clicked */
+.mobile-menu {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.mobile-menu a {
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    border-bottom: 1px solid #ddd;
+}
+
+.hamburger {
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    /* Adjust as needed */
+    top: 40px;
+    transform: translateY(-50%);
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #navbar {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .logo-menu {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .menu_signup {
+        width: 100%;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .menu_cart {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .cart {
+        margin-top: 5px;
+    }
+}
