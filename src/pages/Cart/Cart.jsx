@@ -71,7 +71,7 @@ const Cart = () => {
             <div className="card p-3 shadow-sm mb-3" key={product.id}>
               <div className="d-flex align-items-center">
                 <img
-                  src={product.imageURL}
+                  src={import.meta.env.BASE_URL + product.imageURL}
                   alt={product.name}
                   className="rounded me-3"
                   width="60"

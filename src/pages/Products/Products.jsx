@@ -17,11 +17,17 @@ const Products = () => {
     (state) => state.store
   );
   const { id } = useParams();
-  const [quantities, setQuantities] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchProducts());
-    dispatch(fetchCategories());
+    Promise.all([dispatch(fetchProducts()), dispatch(fetchCategories())])
+      .then(() => setLoading(false))
+      .catch((err) => {
+        console.error("Error fetching products/categories:", err);
+        setError("Failed to load products.");
+        setLoading(false);
+      });
   }, [dispatch]);
 
   useEffect(() => {
@@ -30,24 +36,42 @@ const Products = () => {
 
   const increaseQuantity = (product) => {
     dispatch(addToCart(product));
-    setQuantities((prev) => ({
-      ...prev,
-      [product.id]: (prev[product.id] || 0) + 1,
-    }));
   };
 
   const decreaseQuantity = (productId) => {
     dispatch(removeFromCart(productId));
-    setQuantities((prev) => ({
-      ...prev,
-      [productId]: Math.max((prev[productId] || 0) - 1, 0),
-    }));
   };
+
+  const getQuantity = (productId) => {
+    const item = cart.find((item) => item.id === productId);
+    return item ? item.quantity : 0;
+  };
+
+  if (loading) {
+    return (
+      <div className="container text-center mt-4">Loading products...</div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container text-center text-danger mt-4">{error}</div>
+    );
+  }
 
   return (
     <div className="container mt-4">
       {/* Category Links */}
       <ul className="nav nav-pills mb-4">
+        <li className="nav-item">
+          <Link
+            to="/products/all"
+            className={`nav-link ${id === "all" ? "active" : ""}`}
+            onClick={() => dispatch(setShowProduct("all"))}
+          >
+            All
+          </Link>
+        </li>
         {categories.map((category) => (
           <li key={category._id} className="nav-item">
             <Link
@@ -72,9 +96,10 @@ const Products = () => {
             <div key={product.id} className="col-md-6 col-lg-4 mb-4">
               <div className="card shadow-sm d-flex flex-column h-100">
                 <img
-                  src={product.imageURL}
+                  src={`${import.meta.env.BASE_URL}${product.imageURL}`}
                   alt={product.name}
                   className="card-img-top"
+                  loading="lazy"
                 />
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title">{product.name}</h5>
@@ -88,12 +113,13 @@ const Products = () => {
                     <button
                       className="btn btn-outline-danger"
                       onClick={() => decreaseQuantity(product.id)}
+                      disabled={getQuantity(product.id) === 0}
                       aria-label="decrease quantity"
                     >
                       <FiMinus />
                     </button>
                     <span className="btn btn-outline-secondary">
-                      {quantities[product.id] || 0}
+                      {getQuantity(product.id)}
                     </span>
                     <button
                       className="btn btn-outline-success"

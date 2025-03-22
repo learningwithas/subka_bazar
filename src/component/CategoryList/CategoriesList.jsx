@@ -7,12 +7,38 @@ import { Link } from "react-router-dom";
 const CategoryList = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.store.categories); // Access categories from storeSlice
+  const [categoryId, setCategoryId] = useState("all");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchCategories()); // Fetch categories when component mounts
+    dispatch(fetchCategories())
+      .unwrap()
+      .then(() => setLoading(false))
+      .catch((err) => {
+        console.error("Error fetching categories:", err);
+        setError("Failed to load categories.");
+        setLoading(false);
+      });
   }, [dispatch]);
 
-  const [categoryid, setCategoryid] = useState("all");
+  if (loading) {
+    return (
+      <div className="container text-center mt-4">Loading categories...</div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container text-center text-danger mt-4">{error}</div>
+    );
+  }
+
+  if (!categories || categories.length === 0) {
+    return (
+      <div className="container text-center mt-4">No categories available.</div>
+    );
+  }
 
   return (
     <div className="container mt-4">
@@ -24,22 +50,24 @@ const CategoryList = () => {
                 index % 2 === 0 ? "flex-row-reverse" : ""
               }`}
             >
+              {/* Image Section */}
               <div className="col-md-6 text-center">
                 <img
-                  src={category.imageUrl}
+                  src={`${import.meta.env.BASE_URL}${category.imageUrl}`}
                   alt={category.name}
                   className="img-fluid category-image"
+                  loading="lazy"
                 />
               </div>
 
-              {/* Content */}
+              {/* Content Section */}
               <div className="col-md-6">
                 <div className="category-content text-md-start text-center">
                   <h5>{category.name}</h5>
                   <p>{category.description}</p>
                   <Link to={`/products/${category.id}`}>
                     <button
-                      onClick={() => setCategoryid(category.id)}
+                      onClick={() => setCategoryId(category.id)}
                       className="btn explore-btn"
                     >
                       Explore {category.key}

@@ -1,10 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Fetch data asynchronously
+const BASE_URL = import.meta.env.BASE_URL || "/";
+
+// Fetch data asynchronously with BASE_URL
 export const fetchProducts = createAsyncThunk(
   "store/fetchProducts",
   async () => {
-    const response = await fetch("/products/index.get.json");
+    const response = await fetch(`${BASE_URL}products/index.get.json`);
+    if (!response.ok) throw new Error("Failed to fetch products");
     return response.json();
   }
 );
@@ -12,13 +15,15 @@ export const fetchProducts = createAsyncThunk(
 export const fetchCategories = createAsyncThunk(
   "store/fetchCategories",
   async () => {
-    const response = await fetch("/categories/index.get.json");
+    const response = await fetch(`${BASE_URL}categories/index.get.json`);
+    if (!response.ok) throw new Error("Failed to fetch categories");
     return response.json();
   }
 );
 
 export const fetchBanners = createAsyncThunk("store/fetchBanners", async () => {
-  const response = await fetch("/banners/index.get.json");
+  const response = await fetch(`${BASE_URL}banners/index.get.json`);
+  if (!response.ok) throw new Error("Failed to fetch banners");
   return response.json();
 });
 
