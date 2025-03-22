@@ -45,7 +45,8 @@
 }
 
 .explore-btn:hover {
-    background-color: #b71c3a;
+    background-color: #6b6b6b;
+    color: antiquewhite;
 }
 
 /* Responsive Design */

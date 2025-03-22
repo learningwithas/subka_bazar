@@ -65,7 +65,10 @@ const CategoryList = () => {
                 <div className="category-content text-md-start text-center">
                   <h5>{category.name}</h5>
                   <p>{category.description}</p>
-                  <Link to={`/products/${category.id}`}>
+                  <Link
+                    style={{ color: "black" }}
+                    to={`/products/${category.id}`}
+                  >
                     <button
                       onClick={() => setCategoryId(category.id)}
                       className="btn explore-btn"
