@@ -20,6 +20,7 @@ const App = () => {
       {/*  */}
       <Routes>
         <Route path="/" element={<Home />} key="home" />
+        <Route path="/subka_bazar" element={<Home />} key="home" />
         <Route path="/products" element={<Products />} key="products" />
         <Route
           path="/products/:id"
